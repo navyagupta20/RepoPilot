@@ -1,0 +1,66 @@
+# RepoPilot AI: Streamlit frontend + Django backend + PostgreSQL.
+# Network layout:
+#   backend_net (internal, no internet): db <-> backend
+#   app_net: backend <-> frontend (backend also needs internet for GitHub and the LLM API)
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-repopilot}
+      POSTGRES_USER: ${POSTGRES_USER:-repopilot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your .env file}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks: [backend_net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-repopilot} -d ${POSTGRES_DB:-repopilot}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    env_file: .env
+    environment:
+      DB_ENGINE: postgres
+      DB_HOST: db
+      DB_PORT: "5432"
+      REPOPILOT_DATA_DIR: /data
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,backend
+    volumes:
+      - repopilot_data:/data
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"   # API on your machine only; the frontend uses http://backend:8000 internally
+    networks: [backend_net, app_net]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health/', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    environment:
+      BACKEND_URL: http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8501:8501"
+    networks: [app_net]
+    restart: unless-stopped
+
+networks:
+  backend_net:
+    internal: true
+  app_net: {}
+
+volumes:
+  pgdata: {}
+  repopilot_data: {}
