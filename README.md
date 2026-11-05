@@ -2,6 +2,8 @@
 
 RepoPilot-AI is a code assistant that helps developers understand code, find relevant files, investigate bugs, and get AI-generated suggestions for improving their code.
 
+## Live Demo: https://repopilot-frontend-v3fc.onrender.com
+
 ## Features
 
 - **Repository Analysis:** Explore and understand a codebase.
