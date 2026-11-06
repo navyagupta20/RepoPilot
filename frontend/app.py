@@ -782,7 +782,7 @@ def page_auth() -> None:
             <div class="auth-visual">
                 <div>
                     <div class="auth-visual-brand">
-                        RepoPilot<span>.</span>
+                        RepoPilot<span></span>
                     </div>
 
                     <div class="auth-visual-kicker">
