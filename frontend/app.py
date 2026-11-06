@@ -790,8 +790,8 @@ def page_auth() -> None:
                     </div>
 
                     <h1>
-                        Understand your code.<br>
-                        <span>Build with confidence.</span>
+                        Understand your code<br>
+                        <span>Build with confidence</span>
                     </h1>
 
                     <p class="auth-visual-description">
