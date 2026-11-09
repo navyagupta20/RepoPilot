@@ -132,8 +132,8 @@ EXAMPLE_QUESTIONS = [
 
 MODES = {
     "Hybrid (recommended)": "hybrid",
-    "Keyword (BM25)": "keyword",
-    "Meaning (FAISS)": "semantic",
+    "Keyword": "keyword",
+    "Meaning": "semantic",
 }
 
 
