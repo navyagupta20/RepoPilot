@@ -200,7 +200,7 @@ def embed_texts(texts: list[str], embedder=None, model_name: str = "sentence-tra
     import numpy as np
 
     embedder = embedder or get_embedder(model_name)
-    vectors = embedder.encode(texts, batch_size=32, show_progress_bar=False, convert_to_numpy=True)
+    vectors = embedder.encode(texts, batch_size=8, show_progress_bar=False, convert_to_numpy=True)
     vectors = np.asarray(vectors, dtype="float32")
     norms = np.linalg.norm(vectors, axis=1, keepdims=True)
     norms[norms == 0] = 1.0
