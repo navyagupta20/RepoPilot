@@ -1276,7 +1276,6 @@ def page_repos() -> None:
 
                 if repo:
                     state().active_repo = repo["id"]
-                    state()["_active_sel"] = repo["id"]
 
                     flash(
                         "success",
