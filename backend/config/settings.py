@@ -131,7 +131,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
     "DEFAULT_THROTTLE_RATES": {
-        "auth": env("AUTH_THROTTLE_RATE", "20/min"),
+        "auth": env("AUTH_THROTTLE_RATE", "60/min"),
         "llm": env("LLM_THROTTLE_RATE", "30/min"),
     },
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
